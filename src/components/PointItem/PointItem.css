@@ -1,0 +1,12 @@
+.point {
+    background-color: #ebe7e7;
+    border: 1px solid green;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 5px 10px;
+    text-align: start;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

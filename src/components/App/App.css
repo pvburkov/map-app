@@ -1,0 +1,26 @@
+#app-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    grid-template-rows: 40px auto;
+    grid-template-areas: "ti m"
+                         "pl m";
+    grid-gap: 10px;
+
+    font-size: 2em;
+    font-family: "Century Gothic";
+}
+
+.text-input {
+    grid-area: ti;
+    min-width: 400px;
+}
+
+.point-list {
+    grid-area: pl;
+    min-width: 400px;
+}
+
+.map {
+    grid-area: m;
+    min-height: 500px;
+}

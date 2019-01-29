@@ -1,0 +1,9 @@
+.close-btn {
+    background-color: white;
+    background-image: url('./i/close_btn.png');
+    background-position: center, center;
+    border: 1px solid green;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+}

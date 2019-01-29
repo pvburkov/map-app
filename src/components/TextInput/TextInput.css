@@ -1,0 +1,7 @@
+.text-input {
+    border: 2px solid blue;
+    font-size: 0.85em;
+    font-family: "Century Gothic";
+    height: 40px;
+    text-align: center;
+}
