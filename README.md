@@ -1,31 +1,29 @@
 # map-app
-Приложение для построения упрощенного маршрута по точкам (с использованием API Яндекс.Карт)
+SPA-приложение для построения упрощенного маршрута по точкам (с использованием API Яндекс.Карт).<br>
+В приложении присутствует поле для ввода названия точки, список введенных точек и карта, на которой отображены эти точки.<br>
+Ввод точки осуществляется по нажатии клавиши ```Enter```. Точки в списке можно менять местами перетаскиванием.<br>
+Из списка их можно удалять, кнопка удаления есть у каждой точки в списке. На карте точки также можно перемещать.<br>
+При вводе новой точки она автоматически появится в текущем центре карты.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Проект сделан с помощью приложения [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Инструкция для запуска
 
-In the project directory, you can run:
+В директории проекта доступны несколько скриптов:
 
 ### `npm start`
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Скрипт запускает приложение в режиме разработки<br>
+(в начале проходят проверки кода с использованием ESLint и запуск юнит-тестов на Jest).<br>
+Откройте [http://localhost:3000](http://localhost:3000), чтобы увидеть результат в браузере.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Страница будет перезагружена при внесении каких-либо изменений в код.
 
-### `npm test`
+### `npm test / npm run test:nowatch`
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Запуск юнит-тестов в интерактивном watch-режиме или без такого режима.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Генерация оптимизированных исходников и сборка рабочего варианта (билда) приложения в директории `build`.<br>
+Подробнее о процессе выгрузки рабочего билда на сервер можно прочитать по ссылке: [deployment](https://facebook.github.io/create-react-app/docs/deployment).
