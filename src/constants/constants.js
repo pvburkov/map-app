@@ -11,4 +11,8 @@ export default {
         startCenterCoords: [55.754734, 37.583314],
         startZoom: 10,
     },
+    textInput: {
+        maxLength: 40,
+        placeholder: 'Введите название точки',
+    }
 };
