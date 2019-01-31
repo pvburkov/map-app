@@ -11,10 +11,11 @@
     "uniqid": "5.0.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "lint": "node_modules/.bin/eslint . --ext .js,.jsx",
+    "start": "npm run lint && npm run test:nowatch && react-scripts start",
+    "build": "npm run lint && npm run test:nowatch && react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test:nowatch": "set CI=true && react-scripts test"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -27,9 +28,13 @@
   ],
   "devDependencies": {
     "babel-eslint": "9.0.0",
+    "babel-jest": "23.6.0",
     "eslint": "5.6.0",
     "eslint-plugin-import": "2.15.0",
+    "eslint-plugin-jest": "22.2.0",
     "eslint-plugin-react": "7.12.4",
-    "jest": "23.6.0"
+    "jest": "23.6.0",
+    "jest-dom": "3.0.1",
+    "react-testing-library": "5.4.4"
   }
 }

@@ -1,8 +1,11 @@
 import './TextInput.css';
 
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
+/**
+ * Stateless 'TextInput' component
+ */
 const TextInput = ({
     className,
     handleKeyPress,

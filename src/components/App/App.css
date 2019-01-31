@@ -20,7 +20,7 @@
     min-width: 400px;
 }
 
-.map {
+.route-map {
     grid-area: m;
     min-height: 500px;
 }

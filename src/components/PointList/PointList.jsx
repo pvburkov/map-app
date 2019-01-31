@@ -1,18 +1,20 @@
 import './PointList.css';
 
-import { Droppable } from 'react-beautiful-dnd';
-import React from 'react';
 import PropTypes from 'prop-types';
-import uniqid from 'uniqid';
+import React from 'react';
+import { Droppable } from 'react-beautiful-dnd';
 
 import PointItem from '../PointItem/PointItem';
 
+/**
+ * Stateless 'PointList' component (container for points) 
+ */
 const PointList =  ({
     className,
     deletePoint,
     points,
 }) => (
-    <Droppable droppableId={uniqid()}>
+    <Droppable droppableId="point-list-dropzone">
         {(provided) => (
             <div
                 className={className}

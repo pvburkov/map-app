@@ -1,11 +1,14 @@
 import './PointItem.css';
 
-import { Draggable } from 'react-beautiful-dnd';
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import { Draggable } from 'react-beautiful-dnd';
 
 import Button from '../Button/Button';
 
+/**
+ * Stateless 'PointItem' component 
+ */
 const PointItem = ({
     deletePoint,
     id,

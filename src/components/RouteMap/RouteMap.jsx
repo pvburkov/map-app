@@ -1,85 +1,78 @@
 import './RouteMap.css';
 
+import PropTypes from 'prop-types';
 import {
     Map,
     Placemark,
     Polyline,
     YMaps,
 } from 'react-yandex-maps';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 
-export default class RouteMap extends Component {
-    constructor(props) {
-        super(props);
+import CONSTANTS from '../../constants/constants';
 
-        this.initialMapState = {
-            center: [55.754734, 37.583314],
-            zoom: 10,
-        };
+/**
+ * Stateless 'RouteMap' component
+ * Using Yandex.Maps API and 'react-yandex-maps' library
+ * @link https://tech.yandex.com/maps/doc/jsapi/2.1/quick-start/index-docpage/
+ * @link https://react-yandex-maps.now.sh
+ */
+const RouteMap = ({
+    className,
+    points,
+    updateCenterCoords,
+    updatePointCoords,
+}) => {
+    const initialMapState = {
+        center: CONSTANTS.map.startCenterCoords,
+        zoom: CONSTANTS.map.startZoom,
+    };
 
-        this.currentMapCenter = [55.754734, 37.583314];
-    }
+    const lineCoords = [];
+    points.forEach((point) => {
+        lineCoords.push([point.coordX, point.coordY]);
+    });
 
-    render() {
-        const {
-            changePointCoords,
-            className,
-            points,
-            updateCenterCoords,
-        } = this.props;
-
-        const lineCoords = [];
-        points.forEach((point) => {
-            lineCoords.push([point.coordX, point.coordY]);
-        });
-
-        return (
-            <YMaps query={{ lang: 'ru_RU' }}>
-                <Map
-                    className={className}
-                    defaultState={this.initialMapState}
-                    onBoundsChange={(evt) => {
-                        this.currentMapCenter = evt.get('newCenter');
-                        updateCenterCoords(evt.get('newCenter'));
-                    }}
-                >
-                    {points.map((point, index) => {
-                        return (
-                            <Placemark
-                                key={index}
-                                geometry={[point.coordX, point.coordY]}
-                                properties={{
-                                    balloonContent: point.name,
-                                    iconContent: index + 1,
-                                }}
-                                options={{
-                                    draggable: true,
-                                }}
-                                modules={[
-                                    'geoObject.addon.balloon',
-                                ]}
-                                onDragEnd={(evt) => changePointCoords(evt, point.id)}
-                            />
-                        );
-                    })}
-                    <Polyline
-                        geometry={lineCoords}
-                        options={{
-                            strokeColor: '#0000ff',
-                            strokeWidth: 4,
-                            strokeOpacity: 0.6,
-                        }}
-                    />
-                </Map>
-            </YMaps>
-        );
-    }
-}
+    return (
+        <YMaps query={CONSTANTS.map.mapQuery}>
+            <Map
+                className={className}
+                defaultState={initialMapState}
+                onBoundsChange={(evt) => updateCenterCoords(evt.get('newCenter'))}
+            >
+                {points.map((point, index) => {
+                    return (
+                        <Placemark
+                            geometry={[point.coordX, point.coordY]}
+                            key={index}
+                            modules={[
+                                'geoObject.addon.balloon',
+                            ]}
+                            onDragEnd={(evt) => updatePointCoords(evt, point.id)}
+                            options={{
+                                draggable: true,
+                            }}
+                            properties={{
+                                balloonContent: point.name,
+                                iconContent: index + 1,
+                            }}
+                        />
+                    );
+                })}
+                <Polyline
+                    geometry={lineCoords}
+                    options={CONSTANTS.map.polylineOptions}
+                />
+            </Map>
+        </YMaps>
+    );
+};
 
 RouteMap.propTypes = {
-    changePointCoords: PropTypes.func.isRequired,
     className: PropTypes.string,
     points: PropTypes.arrayOf(PropTypes.object).isRequired,
     updateCenterCoords: PropTypes.func.isRequired,
+    updatePointCoords: PropTypes.func.isRequired,
 };
+
+export default RouteMap;

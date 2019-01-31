@@ -8,6 +8,11 @@ import PointList from '../PointList/PointList';
 import RouteMap from '../RouteMap/RouteMap';
 import TextInput from '../TextInput/TextInput';
 
+import CONSTANTS from '../../constants/constants';
+
+/**
+ * Stateful (container) base component for the Map-App
+ */
 class App extends Component {
     constructor() {
         super();
@@ -16,21 +21,19 @@ class App extends Component {
             points: [],
         };
 
-        this.currentCenterCoords = [55.754734, 37.583314];
+        this.currentCenterCoords = CONSTANTS.map.startCenterCoords; // center of a map
 
-        this.changePointCoords = this.changePointCoords.bind(this);
         this.deletePoint = this.deletePoint.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handlePointDragEnd = this.handlePointDragEnd.bind(this);
-        this.setPointCoords = this.setPointCoords.bind(this);
         this.updateCenterCoords = this.updateCenterCoords.bind(this);
+        this.updatePointCoords = this.updatePointCoords.bind(this);
     }
 
-    changePointCoords(evt, pointId) {
-        const newCoords = evt.originalEvent.target.geometry.getCoordinates();
-        this.setPointCoords(pointId, newCoords);
-    }
-
+    /**
+     * Removing a point from the array of points (and then from the map)
+     * @param {string} pointId
+     */
     deletePoint(pointId) {
         let deleteIndex = null;
         this.state.points.forEach((point, index) => {
@@ -47,8 +50,12 @@ class App extends Component {
         });
     }
 
-    handleKeyPress(event) {
-        if (event.key !== 'Enter' || !event.currentTarget.value) {
+    /**
+     * Handling of a 'keypress' event on TextInput
+     * @param {Event} evt
+     */
+    handleKeyPress(evt) {
+        if (evt.key !== 'Enter' || !evt.currentTarget.value) {
             return;
         }
 
@@ -58,7 +65,7 @@ class App extends Component {
             coordX: this.currentCenterCoords[0],
             coordY: this.currentCenterCoords[1],
             id: uniqid(),
-            name: event.currentTarget.value,
+            name: evt.currentTarget.value,
         };
 
         points.push(point);
@@ -66,9 +73,15 @@ class App extends Component {
         this.setState({
             points: points,
         });
-        event.currentTarget.value = '';
+
+        evt.currentTarget.value = '';
     }
 
+    /**
+     * Handling of 'dragEnd' event in PointList
+     * @param {object} result Special object with information about drag-n-drop operations
+     * ('react-beautiful-dnd' library) 
+     */
     handlePointDragEnd(result) {
         const {
             destination,
@@ -80,17 +93,32 @@ class App extends Component {
         }
 
         const flushedPoints = this.state.points.slice();
-        const tempPoint = { ...flushedPoints[destination.index] };
-        flushedPoints[destination.index] = { ...flushedPoints[source.index] };
-        flushedPoints[source.index] = { ...tempPoint };
+        const tempPoint = { ...flushedPoints[source.index] };
+        flushedPoints.splice(source.index, 1);
+        flushedPoints.splice(destination.index, 0, tempPoint);
 
         this.setState({
             points: flushedPoints,
         });
     }
 
-    setPointCoords(pointId, newCoords) {
+    /**
+     * Updating the coordinates of the map's center
+     * @param {number[]} newCoords 
+     */
+    updateCenterCoords(newCoords) {
+        this.currentCenterCoords = newCoords;
+    }
+
+    /**
+     * Updating coordinates of a point with id=pointId
+     * @param {Event} evt 
+     * @param {string} pointId 
+     */
+    updatePointCoords(evt, pointId) {
+        const newCoords = evt.originalEvent.target.geometry.getCoordinates();
         const changedPoints = this.state.points.slice();
+        
         changedPoints.forEach((point, index) => {
             if (point.id === pointId) {
                 changedPoints[index].coordX = newCoords[0];
@@ -101,10 +129,6 @@ class App extends Component {
         this.setState({
             points: changedPoints,
         });
-    }
-
-    updateCenterCoords(newCoords) {
-        this.currentCenterCoords = newCoords;
     }
     
     render() {
@@ -124,10 +148,10 @@ class App extends Component {
                     />
                 </DragDropContext>
                 <RouteMap
-                    changePointCoords={this.changePointCoords}
-                    className="map"
+                    className="route-map"
                     points={this.state.points}
                     updateCenterCoords={this.updateCenterCoords}
+                    updatePointCoords={this.updatePointCoords}
                 />
             </div>
         );
