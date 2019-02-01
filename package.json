@@ -11,7 +11,7 @@
     "uniqid": "5.0.3"
   },
   "scripts": {
-    "lint": "node_modules/.bin/eslint . --ext .js,.jsx",
+    "lint": "node_modules/.bin/eslint . --ext .js,.jsx --fix",
     "start": "npm run lint && npm run test:nowatch && react-scripts start",
     "build": "npm run lint && npm run test:nowatch && react-scripts build",
     "test": "react-scripts test",
